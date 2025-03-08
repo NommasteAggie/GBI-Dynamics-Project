@@ -2,12 +2,14 @@ import matplotlib.pyplot as plt
 
 # Variables based on Lockheed Martin THAAD
 ceiling = 150000 # meters
-force_thrust = 33434  # Estimated thrust in Newtons
+impulse_specific = 304 # seconds
+force_thrust = 33434  # m_dot * gravity * impulse specific
 mass_int = 900  # kg
 mass_of_fuel = 825  # kg
 max_velocity = 2800  # m/s
 time = int(round(ceiling/max_velocity,0)) # Total time (s) Ceiling/velocity
 mass_dot = mass_of_fuel/time  # kg/s
+time_interception = 30000/1416.3334 # Range (m)/ speed of threat (m/s)
 d = 1  # Time step (s)
 
 
@@ -56,10 +58,10 @@ if __name__ == "__main__":
 
     plt.figure(1, figsize=(10, 7))
 
-    plt.plot(t, y, label="Height (Varying Mass)")
-    plt.plot(t, y_1, label="Height (Constant Mass)")
+    plt.plot(t, y, label="Varying Mass")
+    plt.plot(t, y_1, label="Constant Mass")
     plt.hlines(y=15000, xmin=0, xmax=75, color='g', linestyle=':', linewidth=1, label='Interception')
-    plt.vlines(x=18, ymin=0, ymax=15000, color='b', linestyle=':', linewidth=1, label='Interception Time')
+    plt.vlines(x=time_interception, ymin=0, ymax=15000, color='b', linestyle=':', linewidth=1, label='Interception Time')
     plt.ylabel("Height (m)")
     plt.xlabel("Time (s)")
     plt.title("GBI Position")
@@ -70,8 +72,8 @@ if __name__ == "__main__":
 
     plt.figure(2, figsize=(10, 7))
     plt.title("GBI Velocity")
-    plt.plot(t, v, label="Velocity (Varying Mass)", color='g')
-    plt.plot(t, v_1, label="Velocity (Constant Mass)", color="red")
+    plt.plot(t, v, label="Varying Mass", color='g')
+    plt.plot(t, v_1, label="Constant Mass", color="red")
     plt.xlabel("Time (s)")
     plt.ylabel("Velocity (m/s)")
     plt.legend()
